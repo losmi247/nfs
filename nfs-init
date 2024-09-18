@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# source the NFS server (and files common to client and server) into environment
+. /etc/default/nfs-kernel-server
+. /etc/default/nfs-common
+
+# start the server for converting RPC program numbers into universal addresses
+# any client first contacts this RPC server, and then gets redirected to NFS server
+rpcbind
+
+service nfs-kernel-server start
+
+# wait for changes to '/export' directory (-m means monitor i.e. just log events)
+exec inotifywait -m /exports

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+service nfs-kernel-server stop
+
+# kill the RPC server
+kill $(pidof rpcbind)
+
+service rsyslog stop

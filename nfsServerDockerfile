@@ -1,0 +1,22 @@
+FROM ubuntu:latest
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update -qq && \
+    apt-get install -y nfs-kernel-server runit inotify-tools -qq
+
+# add scripts to services directory
+RUN mkdir -p /etc/sv/nfs
+ADD nfs-init /etc/sv/nfs/run
+ADD nfs-stop /etc/sv/nfs/finish
+
+ADD nfs-setup.sh /usr/local/bin/nfs-setup
+
+RUN echo "nfs             2049/tcp" >> /etc/services
+RUN echo "nfs             111/udp" >> /etc/services
+
+RUN mkdir -p /exports
+VOLUME /exports
+
+EXPOSE 111/udp 2049/tcp
+
+ENTRYPOINT ["/usr/local/bin/nfs-setup"]
