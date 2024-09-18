@@ -1,0 +1,22 @@
+services:
+  server:
+    container_name: nfs-server
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: nfsServerDockerfile
+    privileged: true
+    ports:
+      - "2049:2049"
+      - "111:111"
+    networks:
+      nfs_net:
+        ipv4_address: 192.168.2.100
+
+networks:
+  nfs_net:
+    name: nfs-net
+    driver: bridge
+    ipam:
+       config:
+         - subnet: 192.168.2.0/24

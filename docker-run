@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+# build for x86 (amd64) so it doesn't give 'exportfs: ./nfs_share does not support export' error (because macos uses a different file system from ext4)
+docker build --tag "nfs-server:latest" --platform linux/amd64 --file ./nfsServerDockerfile .
+
+# same, run for amd64 (x86)
+docker run --detach --name nfs-server --privileged --platform linux/amd64 --publish 2049:2049 nfs-server:latest ./nfs_share
