@@ -1,9 +1,8 @@
 services:
-  server:
-    container_name: nfs-server
+  nfs-server:
     platform: linux/amd64
     build:
-      context: .
+      context: ./server
       dockerfile: nfsServerDockerfile
     privileged: true
     ports:
@@ -12,6 +11,15 @@ services:
     networks:
       nfs_net:
         ipv4_address: 192.168.2.100
+  nfs-client:
+    platform: linux/amd64
+    build:
+      context: ./client
+      dockerfile: nfsClientDockerfile
+    privileged: true
+    networks:
+      nfs_net:
+        ipv4_address: 192.168.2.101
 
 networks:
   nfs_net:

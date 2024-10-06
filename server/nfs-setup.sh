@@ -15,5 +15,8 @@ for mnt in "${mounts[@]}"; do
   echo "$src *(rw,sync,no_subtree_check,fsid=0,no_root_squash)" >> /etc/exports
 done
 
+# just for testing
+touch /nfs_share/a.txt
+
 # run all the scripts - init,stop
 exec runsvdir /etc/sv
