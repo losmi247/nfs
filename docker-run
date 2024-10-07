@@ -10,7 +10,7 @@ docker build --tag "nfs-client:latest" --platform linux/amd64 --file ./client/nf
 docker network create --driver bridge --subnet 192.168.0.0/16 nfs-net
 
 # run the server container
-docker run --detach --name nfs-server --privileged --platform linux/amd64 --network=nfs-net --ip=192.168.100.1 --publish 2049:2049 nfs-server:latest /nfs_share
+docker run --detach --name nfs-server --privileged --platform linux/amd64 --network=nfs-net --ip=192.168.100.1 --publish 2049:2049 --volume ./nfs_share:/nfs_share nfs-server:latest /nfs_share
 # run the client container
 docker run --detach --name nfs-client --privileged --platform linux/amd64 --network=nfs-net --ip=192.168.100.2 nfs-client:latest /nfs_share:/shared
 

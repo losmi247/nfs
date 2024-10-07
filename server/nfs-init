@@ -15,4 +15,5 @@ service nfs-kernel-server start
 exportfs -ra
 
 # wait for changes to '/export' directory (-m means monitor i.e. just log events)
+echo "Monitoring changes in exports..."
 exec inotifywait -m /exports

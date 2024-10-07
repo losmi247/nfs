@@ -25,3 +25,6 @@ for mnt in "${mounts[@]}"; do
   # ('mount -t type device dir' mounts the device of type type at the directory dir)
   mount --types nfs --options proto=tcp,port=2049 ${NFS_PORT_2049_TCP_ADDR}:${server_source} ${client_target}
 done
+
+echo "Monitoring changes in mounted directories..."
+inotifywait -m "${targets[@]}"
