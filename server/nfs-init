@@ -1,8 +1,19 @@
 #!/bin/bash
 
+# enable NFSv2 on 22.04
+# echo -e "[nfsd]\nudp=y\ntcp=y\nvers2=y\nvers3=y\nvers4=y" | tee /etc/nfs.conf.d/local.conf
+
 # source the NFS server (and files common to client and server) into environment
 . /etc/default/nfs-kernel-server
 . /etc/default/nfs-common
+
+# enable NFSv2 and disable NFSv3 and NFSv4
+# crudini --set /etc/nfs.conf nfsd vers2 y
+# crudini --set /etc/nfs.conf nfsd vers3 n
+# crudini --set /etc/nfs.conf nfsd vers4 n
+# enable tcp and udp
+# crudini --set /etc/nfs.conf nfsd tcp y
+# crudini --set /etc/nfs.conf nfsd udp y
 
 # start the server for converting RPC program numbers into universal addresses
 # any client first contacts this RPC server, and then gets redirected to NFS server

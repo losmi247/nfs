@@ -1,4 +1,10 @@
-#!/bin/zsh
+#!/bin/bash
+
+docker container rm -f nfs-server
+docker container rm -f nfs-client
+docker image rm "nfs-server:latest"
+docker image rm "nfs-client:latest"
+docker network rm nfs-net
 
 ### BUILD THE SERVER IMAGE
 # build for x86 (amd64) so it doesn't give 'exportfs: ./nfs_share does not support export' error (because macos uses a different file system from ext4)
@@ -15,4 +21,4 @@ docker run --detach --name nfs-server --privileged --platform linux/amd64 --netw
 docker run --detach --name nfs-client --privileged --platform linux/amd64 --network=nfs-net --ip=192.168.100.2 nfs-client:latest /nfs_share:/shared
 
 # get a shell on the client
-docker exec -it <client_container> bash
+# docker exec -it <client_container> bash
